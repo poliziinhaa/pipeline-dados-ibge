@@ -1,0 +1,28 @@
+resources:
+  jobs:
+    weekly_orchestration_populacao_ibge:
+      name: "[weekly]orchestration-populacao-ibge"
+      schedule:
+        quartz_cron_expression: 0 0 7 ? * Mon
+        timezone_id: America/Sao_Paulo
+        pause_status: UNPAUSED
+      tasks:
+        - task_key: bronze_ibge_6579
+          notebook_task:
+            notebook_path: /Workspace/Users/poli.mendes.eps@gmail.com/ibge-sidra-databricks/bronze/bronze_ibge_6579
+            source: WORKSPACE
+        - task_key: silver_6579
+          depends_on:
+            - task_key: bronze_ibge_6579
+          notebook_task:
+            notebook_path: /Workspace/Users/poli.mendes.eps@gmail.com/ibge-sidra-databricks/silver/silver_ibge_6579
+            source: WORKSPACE
+        - task_key: gold_popuplacao_ibge
+          depends_on:
+            - task_key: silver_6579
+          notebook_task:
+            notebook_path: /Workspace/Users/poli.mendes.eps@gmail.com/ibge-sidra-databricks/gold/gold_populacao_ibge
+            source: WORKSPACE
+      queue:
+        enabled: true
+      performance_target: PERFORMANCE_OPTIMIZED

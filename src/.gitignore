@@ -1,0 +1,17 @@
+# Databricks
+__pycache__/
+*.py[cod]
+*$py.class
+.databricks/
+
+# Notebooks checkpoints
+.ipynb_checkpoints/
+
+# Ambientes virtuais (se um dia baixar local)
+venv/
+env/
+.env
+
+# Arquivos de sistema
+.DS_Store
+Thumbs.db
